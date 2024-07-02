@@ -8,7 +8,6 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "test": "vitest",
-    "test:integration": "vitest -- --test-pattern **/integration/*.test.ts",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -16,7 +15,8 @@
     "@tanstack/react-router": "^1.43.6",
     "axios": "^1.7.2",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "url-regex": "^5.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
