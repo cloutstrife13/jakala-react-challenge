@@ -15,6 +15,7 @@ specifiers:
   react: ^18.3.1
   react-dom: ^18.3.1
   typescript: ^5.2.2
+  url-regex: ^5.0.0
   vite: ^5.3.1
   vitest: ^1.6.0
 
@@ -24,6 +25,7 @@ dependencies:
   axios: 1.7.2
   react: 18.3.1
   react-dom: 18.3.1_react@18.3.1
+  url-regex: 5.0.0
 
 devDependencies:
   '@types/react': 18.3.3
@@ -1427,6 +1429,11 @@ packages:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
     dev: true
 
+  /ip-regex/4.3.0:
+    resolution: {integrity: sha512-B9ZWJxHHOHUhUjCPrMpLD4xEq35bUTClHM1S6CBU5ixQnkZmwipwgc96vAd7AAGM9TGHvJR+Uss+/Ak6UphK+Q==}
+    engines: {node: '>=8'}
+    dev: false
+
   /is-extglob/2.1.1:
     resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==}
     engines: {node: '>=0.10.0'}
@@ -1931,6 +1938,11 @@ packages:
     engines: {node: '>=14.0.0'}
     dev: true
 
+  /tlds/1.253.0:
+    resolution: {integrity: sha512-lNov5nt5/xw6nK00gtoQSA2I4HcpAnot1TMJccTNw2rtL5jdLN26h3f+mT8VF4JBv5/rBNXyuUPWcogceyKJJw==}
+    hasBin: true
+    dev: false
+
   /to-regex-range/5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
@@ -1979,6 +1991,14 @@ packages:
     dependencies:
       punycode: 2.3.1
     dev: true
+
+  /url-regex/5.0.0:
+    resolution: {integrity: sha512-O08GjTiAFNsSlrUWfqF1jH0H1W3m35ZyadHrGv5krdnmPPoxP27oDTqux/579PtaroiSGm5yma6KT1mHFH6Y/g==}
+    engines: {node: '>=8'}
+    dependencies:
+      ip-regex: 4.3.0
+      tlds: 1.253.0
+    dev: false
 
   /use-sync-external-store/1.2.2_react@18.3.1:
     resolution: {integrity: sha512-PElTlVMwpblvbNqQ82d2n6RjStvdSoNe9FG28kNfz3WiXilJm4DdNkEzRhCZuIDwY8U08WVihhGR5iRqAwfDiw==}
