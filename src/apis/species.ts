@@ -4,10 +4,10 @@ import { PaginatedResponse } from "../types/response";
 import { Species } from "../types/swapi";
 
 export const fetchStarWarsSpecies = async <
-  SpeciesId extends number | undefined = undefined
+  SpeciesId extends string | undefined = undefined
 >(
   speciesId?: SpeciesId
-): Promise<SpeciesId extends number ? Species : PaginatedResponse<Species>> => {
+): Promise<SpeciesId extends string ? Species : PaginatedResponse<Species>> => {
   if (speciesId) {
     const result = await axios.get(`${SwapiEndpoint.SPECIES}/${speciesId}`);
     return result.data;

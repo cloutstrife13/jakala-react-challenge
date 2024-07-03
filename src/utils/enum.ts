@@ -9,4 +9,9 @@ export enum SwapiEndpoint {
 
 export enum QueryKey {
   FILMS = "films",
+  PEOPLE = "people",
+  PLANETS = "planets",
+  SPECIES = "species",
+  STARSHIPS = "starships",
+  VEHICLES = "vehicles",
 }

@@ -11,7 +11,7 @@ export const fetchStarWarsPeople = async (): Promise<
 };
 
 export const fetchStarWarsPerson = async (
-  personId: number
+  personId: string
 ): Promise<Person> => {
   const result = await axios.get(`${SwapiEndpoint.PEOPLE}/${personId}`);
   return result.data;

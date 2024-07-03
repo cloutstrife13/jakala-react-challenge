@@ -11,7 +11,7 @@ export const fetchStarWarsPlanets = async (): Promise<
 };
 
 export const fetchStarWarsPlanet = async (
-  planetId: number
+  planetId: string
 ): Promise<Planet> => {
   const result = await axios.get(`${SwapiEndpoint.PLANETS}/${planetId}`);
   return result.data;

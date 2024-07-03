@@ -11,7 +11,7 @@ export const fetchStarWarsStarships = async (): Promise<
 };
 
 export const fetchStarWarsStarship = async (
-  starshipId: number
+  starshipId: string
 ): Promise<Starship> => {
   const result = await axios.get(`${SwapiEndpoint.STARSHIPS}/${starshipId}`);
   return result.data;
