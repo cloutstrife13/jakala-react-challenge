@@ -3,18 +3,16 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  Text,
-  Heading,
   Stack,
   StackDivider,
-  Box,
   SimpleGrid,
   Spinner,
   Flex,
   Button,
 } from "@chakra-ui/react";
 import { useFilmsQuery } from "../hooks/useFilmsQuery";
-import { Link } from "@tanstack/react-router";
+import { ErrorComponent, Link } from "@tanstack/react-router";
+import { CardSection } from "../components/CardSection";
 
 const Films: React.FC = () => {
   const { useFilms } = useFilmsQuery();
@@ -26,7 +24,7 @@ const Films: React.FC = () => {
   }
 
   if (error) {
-    return <div>Error.</div>;
+    return <ErrorComponent error={error} />;
   }
 
   return (
@@ -35,30 +33,22 @@ const Films: React.FC = () => {
       marginLeft={20}
       marginRight={20}
       marginTop={10}
+      marginBottom={10}
       spacing={4}
     >
       {data.results.map((film, index) => (
         <Card key={index}>
           <CardHeader>
             <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-              <Box>
-                <Heading size="sm">
-                  {film.title} ({film.release_date.split("-")[0]})
-                </Heading>
-                <Text fontSize="sm">Episode {film.episode_id}</Text>
-              </Box>
+              <CardSection
+                title={`${film.title} (${film.release_date.split("-")[0]})`}
+                contents={[`Episode ${film.episode_id}`]}
+              />
             </Flex>
           </CardHeader>
           <CardBody>
             <Stack divider={<StackDivider />} spacing={4}>
-              <Box>
-                <Heading size="xs" textTransform="uppercase">
-                  Summary
-                </Heading>
-                <Text pt="2" fontSize="sm">
-                  {film.opening_crawl}
-                </Text>
-              </Box>
+              <CardSection title="Summary" contents={[film.opening_crawl]} />
             </Stack>
           </CardBody>
           <CardFooter>
