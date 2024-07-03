@@ -1,11 +1,11 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
-import { useFilms } from "../../useFilms";
+import { useFilmsQuery } from "../../useFilmsQuery";
 import { beforeAll, describe, expect, it } from "vitest";
 import { PropsWithChildren } from "react";
 import { QueryKey } from "../../../utils/enum";
 
-describe("useFilms", () => {
+describe("useFilmsQuery", () => {
   let queryClient: QueryClient;
   let wrapper: React.FC<PropsWithChildren>;
 
@@ -18,6 +18,7 @@ describe("useFilms", () => {
   });
 
   it("renders the hook", async () => {
+    const { useFilms } = useFilmsQuery();
     const { result } = renderHook(useFilms, { wrapper });
 
     await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
