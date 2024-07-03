@@ -2,8 +2,6 @@ import {
   Card,
   CardHeader,
   CardBody,
-  Text,
-  Heading,
   Stack,
   StackDivider,
   Box,
@@ -17,28 +15,25 @@ import { usePlanetsQuery } from "../hooks/usePlanetsQuery";
 import { useSpeciesQuery } from "../hooks/useSpeciesQuery";
 import { useStarshipsQuery } from "../hooks/useStarshipsQuery";
 import { useVehiclesQuery } from "../hooks/useVehiclesQuery";
-import { useQueryClient } from "@tanstack/react-query";
-import { QueryKey } from "../utils/enum";
 import { crawlResponseToExtractAllIdsFromUrls } from "../utils/url";
-import { Film } from "../types/swapi";
-import { PaginatedResponse } from "../types/response";
-import { Link } from "@tanstack/react-router";
+import { ErrorComponent, Link } from "@tanstack/react-router";
+import { CardSectionAsync } from "../components/CardSectionAsync";
+import { CardSection } from "../components/CardSection";
+import { useFilmsQuery } from "../hooks/useFilmsQuery";
 
 const FilmView: React.FC<{ episode: string }> = ({ episode }) => {
-  // TODO: Remove the query client and fetch the data instead
-  const client = useQueryClient();
-  const cachedResult = client
-    .getQueryCache()
-    .find({ queryKey: [QueryKey.FILMS] });
+  const { useFilm } = useFilmsQuery();
 
-  if (!cachedResult) {
-    return <div>Not found</div>;
+  const { isPending, error, data: film } = useFilm(episode);
+
+  if (isPending) {
+    return <Spinner />;
   }
 
-  const cachedResponse = cachedResult.state.data as PaginatedResponse<Film>;
-  const films = cachedResponse.results as Film[];
+  if (error) {
+    return <ErrorComponent error={error} />;
+  }
 
-  const [film] = films.filter((film) => String(film.episode_id) === episode);
   const dataIds = crawlResponseToExtractAllIdsFromUrls(film);
 
   const { usePeopleByIds } = usePeopleQuery();
@@ -47,27 +42,20 @@ const FilmView: React.FC<{ episode: string }> = ({ episode }) => {
   const { useStarshipsByIds } = useStarshipsQuery();
   const { useVehiclesByIds } = useVehiclesQuery();
 
-  // TODO: Move these bit to a reusable component to avoid hook rerender hell
-  const peopleData = usePeopleByIds(dataIds.characters as string[]);
-  const planetData = usePlanetsByIds(dataIds.planets as string[]);
-  const speciesData = useSpeciesByIds(dataIds.species as string[]);
-  const starshipsData = useStarshipsByIds(dataIds.starships as string[]);
-  const vehiclesData = useVehiclesByIds(dataIds.vehicles as string[]);
-
-  const isLoading = [
-    peopleData,
-    planetData,
-    speciesData,
-    starshipsData,
-    vehiclesData,
-  ].every((dataset) => dataset.some((data) => data.isLoading));
-
-  if (isLoading) {
-    return <Spinner />;
-  }
+  const peopleData = () => usePeopleByIds(dataIds.characters as string[]);
+  const planetData = () => usePlanetsByIds(dataIds.planets as string[]);
+  const speciesData = () => useSpeciesByIds(dataIds.species as string[]);
+  const starshipsData = () => useStarshipsByIds(dataIds.starships as string[]);
+  const vehiclesData = () => useVehiclesByIds(dataIds.vehicles as string[]);
 
   return (
-    <SimpleGrid columns={1} marginLeft={20} marginRight={20} marginTop={10}>
+    <SimpleGrid
+      columns={1}
+      marginLeft={20}
+      marginRight={20}
+      marginTop={10}
+      marginBottom={10}
+    >
       <Card>
         <CardHeader>
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -76,103 +64,23 @@ const FilmView: React.FC<{ episode: string }> = ({ episode }) => {
                 <Link to="/">Back</Link>
               </Button>
             </Box>
-            <Box>
-              <Heading size="sm">{film.title}</Heading>
-              <Text fontSize="sm">Episode {film.episode_id}</Text>
-            </Box>
-            <Box>
-              <Heading size="sm">Director</Heading>
-              <Text fontSize="sm">{film.director}</Text>
-            </Box>
-            <Box>
-              <Heading size="sm">Producer</Heading>
-              <Text fontSize="sm">{film.producer}</Text>
-            </Box>
-            <Box>
-              <Heading size="sm">Release</Heading>
-              <Text fontSize="sm">{film.release_date}</Text>
-            </Box>
+            <CardSection
+              title={film.title}
+              contents={[`Episode ${film.episode_id}`]}
+            />
+            <CardSection title="Director" contents={[film.director]} />
+            <CardSection title="Producer" contents={[film.producer]} />
+            <CardSection title="Release" contents={[film.release_date]} />
           </Flex>
         </CardHeader>
         <CardBody>
           <Stack divider={<StackDivider />} spacing={4}>
-            <Box>
-              <Heading size="xs" textTransform="uppercase">
-                Summary
-              </Heading>
-              <Text pt="2" fontSize="sm">
-                {film.opening_crawl}
-              </Text>
-            </Box>
-            <Box>
-              <Heading size="xs" textTransform="uppercase">
-                People
-              </Heading>
-              <SimpleGrid columns={4} spacing={4}>
-                {peopleData.map(({ data: person }) => (
-                  <Text pt="2" fontSize="sm">
-                    {person?.name}
-                  </Text>
-                ))}
-              </SimpleGrid>
-            </Box>
-            <Box>
-              <Heading size="xs" textTransform="uppercase">
-                Planets
-              </Heading>
-              <Text pt="2" fontSize="sm">
-                <SimpleGrid columns={4} spacing={4}>
-                  {planetData.map(({ data: planet }) => (
-                    <Text pt="2" fontSize="sm">
-                      {planet?.name}
-                    </Text>
-                  ))}
-                </SimpleGrid>
-              </Text>
-            </Box>
-            <Box>
-              <Heading size="xs" textTransform="uppercase">
-                Species
-              </Heading>
-
-              <Text pt="2" fontSize="sm">
-                <SimpleGrid columns={4} spacing={4}>
-                  {speciesData.map(({ data: species }) => (
-                    <Text pt="2" fontSize="sm">
-                      {species?.name}
-                    </Text>
-                  ))}
-                </SimpleGrid>
-              </Text>
-            </Box>
-            <Box>
-              <Heading size="xs" textTransform="uppercase">
-                Starships
-              </Heading>
-              <Text pt="2" fontSize="sm">
-                <SimpleGrid columns={4} spacing={4}>
-                  {starshipsData.map(({ data: starship }) => (
-                    <Text pt="2" fontSize="sm">
-                      {starship?.name}
-                    </Text>
-                  ))}
-                </SimpleGrid>
-              </Text>
-            </Box>
-            <Box>
-              <Heading size="xs" textTransform="uppercase">
-                Vehicles
-              </Heading>
-              <Text pt="2" fontSize="sm">
-                <SimpleGrid columns={4} spacing={4}>
-                  {vehiclesData.map(({ data: vehicle }) => (
-                    <Text pt="2" fontSize="sm">
-                      {vehicle?.name}
-                    </Text>
-                  ))}
-                </SimpleGrid>
-              </Text>
-            </Box>
+            <CardSection title="Summary" contents={[film.opening_crawl]} />
+            <CardSectionAsync title="People" fetchDataset={peopleData} />
+            <CardSectionAsync title="Planets" fetchDataset={planetData} />
+            <CardSectionAsync title="Species" fetchDataset={speciesData} />
+            <CardSectionAsync title="Starships" fetchDataset={starshipsData} />
+            <CardSectionAsync title="Vehicles" fetchDataset={vehiclesData} />
           </Stack>
         </CardBody>
       </Card>
