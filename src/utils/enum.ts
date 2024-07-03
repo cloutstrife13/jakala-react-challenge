@@ -6,3 +6,7 @@ export enum SwapiEndpoint {
   STARSHIPS = "https://swapi.dev/api/starships",
   VEHICLES = "https://swapi.dev/api/vehicles",
 }
+
+export enum QueryKey {
+  FILMS = "films",
+}
