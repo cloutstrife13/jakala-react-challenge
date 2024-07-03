@@ -13,7 +13,7 @@ export const crawlResponseToExtractAllIdsFromUrls = <
   SwapiResponse extends object
 >(
   response: SwapiResponse
-): Record<string, string | string[]> =>
+): Record<keyof SwapiResponse, SwapiResponse[keyof SwapiResponse]> =>
   Object.entries(response)
     .map(([key, value]) => {
       if (typeof value === "string" && isStringUrl(value)) {
@@ -32,5 +32,5 @@ export const crawlResponseToExtractAllIdsFromUrls = <
     })
     .reduce(
       (prev, next) => ({ ...prev, ...next }),
-      {} as Record<string, string | string[]>
+      {} as Record<keyof SwapiResponse, SwapiResponse[keyof SwapiResponse]>
     );
