@@ -9,7 +9,7 @@ describe("Vehicles API", () => {
   });
 
   it("fetches a vehicle entry from SWAPI", async () => {
-    const result = await fetchStarWarsVehicle(4);
+    const result = await fetchStarWarsVehicle("4");
 
     expect(result).toMatchSnapshot();
   });

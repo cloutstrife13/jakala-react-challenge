@@ -10,7 +10,7 @@ export const fetchStarWarsFilms = async (): Promise<
   return result.data;
 };
 
-export const fetchStarWarsFilm = async (filmId: number): Promise<Film> => {
+export const fetchStarWarsFilm = async (filmId: string): Promise<Film> => {
   const result = await axios.get(`${SwapiEndpoint.FILMS}/${filmId}`);
   return result.data;
 };

@@ -9,7 +9,7 @@ describe("People API", () => {
   });
 
   it("fetches a person entry from SWAPI", async () => {
-    const result = await fetchStarWarsPerson(1);
+    const result = await fetchStarWarsPerson("1");
 
     expect(result).toMatchSnapshot();
   });

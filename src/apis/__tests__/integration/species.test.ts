@@ -9,7 +9,7 @@ describe("Species API", () => {
   });
 
   it("fetches a species entry from SWAPI", async () => {
-    const result = await fetchStarWarsSpecies(3);
+    const result = await fetchStarWarsSpecies("3");
 
     expect(result).toMatchSnapshot();
   });

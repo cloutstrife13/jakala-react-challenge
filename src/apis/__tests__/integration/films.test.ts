@@ -9,7 +9,7 @@ describe("Films API", () => {
   });
 
   it("fetches a film entry from SWAPI", async () => {
-    const result = await fetchStarWarsFilm(1);
+    const result = await fetchStarWarsFilm("1");
 
     expect(result).toMatchSnapshot();
   });
