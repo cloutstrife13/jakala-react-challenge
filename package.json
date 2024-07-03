@@ -11,9 +11,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "@tanstack/react-query": "^5.49.2",
     "@tanstack/react-router": "^1.43.6",
     "axios": "^1.7.2",
+    "framer-motion": "^11.2.12",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "url-regex": "^5.0.0"
@@ -31,6 +35,7 @@
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
     "@vitejs/plugin-react-swc": "^3.5.0",
+    "csstype": "^3.0.10",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
